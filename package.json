@@ -13,6 +13,7 @@
     "gatsby-plugin-manifest": "next",
     "gatsby-plugin-offline": "next",
     "gatsby-plugin-react-helmet": "next",
+    "netlify-lambda": "^0.4.0",
     "prop-types": "^15.6.2",
     "ramda": "^0.25.0",
     "react": "^16.4.2",
@@ -29,6 +30,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
+    "lambdas": "netlify-lambda serve src/lambdas",
     "develop": "gatsby develop",
     "format": "prettier --write '**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1",
