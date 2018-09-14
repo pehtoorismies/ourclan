@@ -19,6 +19,7 @@ const handleSubmit = (email, setSubmitting, setErrors) => {
   const url = `${config.EMAIL_VALIDATOR_URL}/verifyemail/${encodeURIComponent(
     email,
   )}`;
+  console.log('url', url);
   fetch(url, { mode: 'cors' })
     .then(res => {
       if (res.status !== 200) {
