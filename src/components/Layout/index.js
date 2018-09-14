@@ -19,6 +19,7 @@ const FullHeight = styled.div`
 const downColor = '#d3daea';
 const upColor = '#7fa9bc';
 
+/* eslint-disable */
 injectGlobal`
   ${reset}
   * { box-sizing: border-box; }
@@ -31,6 +32,7 @@ injectGlobal`
     background-attachment: fixed;
   }
 `;
+/* eslint-enable */
 
 const Layout = ({ children, data }) => (
   <StaticQuery
