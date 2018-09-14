@@ -16,7 +16,7 @@ const Content = styled(Reb.Flex)`
 `;
 // 
 const handleSubmit = (email, setSubmitting, setErrors) => {
-  const url = `${config.EMAIL_VALIDATOR_URL}/verify/${encodeURIComponent(
+  const url = `${config.EMAIL_VALIDATOR_URL}/verifyemail/${encodeURIComponent(
     email,
   )}`;
   fetch(url, { mode: 'cors' })
@@ -24,6 +24,7 @@ const handleSubmit = (email, setSubmitting, setErrors) => {
       if (res.status !== 200) {
         throw new Error('Wrong status');
       }
+      console.log('res', res);
       return res.json();
     })
     .then(({ valid }) => {
