@@ -7,7 +7,7 @@ import { FormBox } from '../Elements';
 
 const PropTypes = {
   values: object.isRequired, // eslint-disable-line
-  errors: object.isRequired,// eslint-disable-line
+  errors: object.isRequired, // eslint-disable-line
   // touched: bool.isRequired,
   handleChange: func.isRequired,
   handleBlur: func.isRequired,
@@ -19,7 +19,9 @@ const DefaultProps = {};
 const EmailInput = styled(Reb.Input)`
   max-width: 400px;
 `;
-
+const Bold = styled.span`
+  font-weight: 800;
+`;
 
 const sendText = 'Lähetä kirjautumiskoodi';
 
@@ -31,7 +33,6 @@ const MailForm = ({
   handleSubmit,
   isSubmitting,
 }) => {
-
   const errorMsg = errors.email ? (
     <Reb.Text color="red" m={2}>
       {errors.email}
@@ -49,24 +50,28 @@ const MailForm = ({
         alignItems="center"
       >
         <Reb.Box>
-          <Reb.Heading fontWeight="bold" fontSize={[2,3]} my={2} textAlign="center">
-            Ohje
+          <Reb.Heading
+            fontWeight="bold"
+            fontSize={[2, 3]}
+            my={2}
+            textAlign="center"
+          >
+            Kirjautuminen
           </Reb.Heading>
-          <Reb.Text lineHeight={[1, 2]} py={2} textAlign="center" fontSize={[0, 1, 1]}>
-            Kirjautuminen on mahdollista ainoastaan ennakkoon määritellyille
-            sähköpostiosoitteille.
+          <Reb.Text
+            lineHeight={[1, 2]}
+            py={2}
+            textAlign="center"
+            fontSize={[0, 1, 1]}
+          >
+            Kirjautuminen (login) on mahdollista ainoastaan ennakkoon
+            määritellyille sähköpostiosoitteille. Jos sinut on lisätty listalle
+            saat sähköpostiisi kirjautumiskoodi.
           </Reb.Text>
           <Reb.Text lineHeight={[1, 2]} fontSize={[0, 1, 1]}>
-            <ul>
-              <li>
-                Syötä sähköpostiosoitteesi ja paina <i>{sendText}</i>
-              </li>
-              <li>
-                Jos sinut on lisätty listalle saat sähköpostiisi kirjautumiskoodin
-              </li>
-              <li> Syötä kirjautumiskoodi</li>
-            </ul>
+            Syötä sähköpostiosoitteesi ja paina <Bold>{sendText}</Bold>
           </Reb.Text>
+          <Reb.Text lineHeight={[1, 2]} fontSize={[0, 1, 1]} />
         </Reb.Box>
         <EmailInput
           type="email"
@@ -74,7 +79,7 @@ const MailForm = ({
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.email}
-          placeholder="Sähköpostiosoite"
+          placeholder="Sähköpostiosoitteeni"
           my={3}
         />
         {errorMsg}
@@ -88,14 +93,14 @@ const MailForm = ({
 
 const MailInputForm = withFormik({
   mapPropsToValues: () => ({ email: '' }),
-  validate: (values) => {
+  validate: values => {
     const errors = {};
     if (!values.email) {
-      errors.email = 'Required';
+      errors.email = 'Anna sähköpostiosoitteesi';
     } else if (
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
     ) {
-      errors.email = 'Invalid email address';
+      errors.email = 'Tarkista sähköpostiosoite';
     }
     return errors;
   },
