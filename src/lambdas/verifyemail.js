@@ -32,7 +32,7 @@ export function handler(event, context, callback) {
     .toLowerCase()
     .trim();
   const hasEmail = emailArray.indexOf(verifiableEmail) >= 0;
-
+  console.log('Has email', verifiableEmail, hasEmail);
   callback(null, {
     headers,
     statusCode: 200,
