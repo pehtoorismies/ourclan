@@ -1,4 +1,9 @@
-const proxy = require('http-proxy-middleware');
+require("dotenv").config({
+  path: `.env`,
+})
+const proxy = require('http-proxy-middleware'); // eslint-disable-line
+
+console.log('process.env', process.env);
 
 module.exports = {
   developMiddleware: app => {
@@ -42,15 +47,13 @@ module.exports = {
         // The name of your prismic.io repository. This is required.
         // Example: 'gatsby-source-prismic-test-site' if your prismic.io address
         // is 'gatsby-source-prismic-test-site.prismic.io'.
-        repositoryName: 'tuomaala',
+        repositoryName: process.env.PRISMIC_REPOSITORY,
 
         // An API access token to your prismic.io repository. This is required.
         // You can generate an access token in the "API & Security" section of
         // your repository settings. Setting a "Callback URL" is not necessary.
         // The token will be listed under "Permanent access tokens".
-        accessToken:
-          'MC5XNTBaWnlVQUFDTUEwUGFO.77-977-9CO-_ve-_vRAePO-_ve-_vRES77-977-977-977-9eC8x77-9Ee-_vXnvv71A77-977-977-9IiVJXg',
-
+        accessToken: process.env.PRISMIC_TOKEN,
         // Set a link resolver function used to process links in your content.
         // Fields with rich text formatting or links to internal content use this
         // function to generate the correct link URL.

@@ -37,20 +37,29 @@ const CallbackPage = props => {
 
   const { access_token: accessToken, error } = qs.parse(hash);
 
-  webAuth.parseHash({ hash }, (err1, authResult) => {
-    if (err1) {
-      return console.log(err1);
-    }
-    console.log('authResult', authResult);
-    webAuth.client.userInfo(authResult.accessToken, (err2, user) => {
-      if (err2) {
-        return console.log(err2);
+  /*
+  Some of your code references “browser globals” like window or document.
+  If this is your problem you should see an error above like “window is not defined”.
+  To fix this, find the offending code and either a) check before calling the code if window is defined so the code doesn’t run while gatsby is building
+  */
+  if (typeof window !== 'undefined') { // 
+    webAuth.parseHash({ hash }, (err1, authResult) => {
+      if (err1) {
+        return console.log(err1);
       }
-      console.log('user', user);
-
-
+      console.log('authResult', authResult);
+      webAuth.client.userInfo(authResult.accessToken, (err2, user) => {
+        if (err2) {
+          return console.log(err2);
+        }
+        console.log('user', user);
+        // DO something
+  
+  
+      });
     });
-  });
+  }
+  
 
 
 
