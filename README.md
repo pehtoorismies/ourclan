@@ -1,3 +1,3 @@
 # Deployment
 
-Deploy to Netlifly on: `master`
+Deploy to Netlify on: `master`
