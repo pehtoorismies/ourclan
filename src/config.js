@@ -26,8 +26,10 @@ const config = {
     { title: 'Kirjaudu', link: '/kirjaudu' },
   ],
   ACCESS_TOKEN: 'heritageAccessToken',
-  EMAIL_VALIDATOR_URL: process.env.GATSBY_VERIFY_URL || '/.netlifly/functions',
+  LAMBDA_HOST: process.env.GATSBY_LAMBDA_HOST || process.env.URL, // in production it is the same url
   WHITE_LIST_EMAILS: process.env.WHITE_LIST_EMAILS || '',
+  // LAMBDAS
+  EMAIL_VALIDATOR_PATH: process.env.GATSBY_LAMBDA_VERIFY_EMAIL_PATH,
 };
 
 export default config;

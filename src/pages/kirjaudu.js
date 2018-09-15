@@ -14,9 +14,11 @@ const DefaultProps = {};
 const Content = styled(Reb.Flex)`
   width: 100%;
 `;
-// 
+
+const { LAMBDA_HOST,  EMAIL_VALIDATOR_PATH } = config;
+
 const handleSubmit = (email, setSubmitting, setErrors) => {
-  const url = `${config.EMAIL_VALIDATOR_URL}/verifyemail/${encodeURIComponent(
+  const url = `${LAMBDA_HOST}${EMAIL_VALIDATOR_PATH}/${encodeURIComponent(
     email,
   )}`;
   console.log('url', url);
@@ -25,12 +27,11 @@ const handleSubmit = (email, setSubmitting, setErrors) => {
       if (res.status !== 200) {
         throw new Error('Wrong status');
       }
-      console.log('res', res);
       return res.json();
     })
     .then(({ valid }) => {
       console.log('valid', valid);
-      if (!valid) {
+      if (true) {
         setErrors({
           email:
             'Kyseistä sähköpostiosoitetta ei ole käyttäjien listalla. Ota yhteyttä antti (a) tuomaala.fi',
