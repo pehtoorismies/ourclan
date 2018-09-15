@@ -29,7 +29,7 @@ const handleSubmit = (email, setSubmitting, setErrors) => {
     })
     .then(({ valid }) => {
       console.log('valid', valid);
-      if (true) {
+      if (!valid) {
         setErrors({
           email:
             'Kyseistä sähköpostiosoitetta ei ole käyttäjien listalla. Ota yhteyttä antti (a) tuomaala.fi',

@@ -28,6 +28,8 @@ const config = {
   ACCESS_TOKEN: 'heritageAccessToken',
   WHITE_LIST_EMAILS: process.env.WHITE_LIST_EMAILS || '',
   NETLIFY_FUNCTIONS: '/.netlify/functions',
+  AUTH0_DOMAIN: 'prod-tuomaalafi.eu.auth0.com',
+  AUTH0_CLIENT_ID: '6maNRjtjiFie9k4ShgWAeX2GOt5JoWNY',
 };
 
 export default config;
