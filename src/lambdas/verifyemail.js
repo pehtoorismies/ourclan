@@ -15,6 +15,7 @@ const headers = {
 /* eslint-disable */
 export function handler(event, context, callback) {
   const { path } = event;
+  console.log('path', path);
 
   const pathArray = path.split('/');
   if (pathArray.length != 3) {
