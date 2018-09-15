@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const emails = process.env.EMAIL_WHITE_LIST;
+const PREFIX = '/.netlify/functions';
 
 const emailArray = emails
   .split(',')
@@ -16,8 +17,10 @@ const headers = {
 export function handler(event, context, callback) {
   const { path } = event;
   console.log('path', path);
-
-  const pathArray = path.split('/');
+  const isProduction = path.startsWith('/.netlify/functions');
+  const parsedPath = isProduction ? path.substring(PREFIX.length - 1) : path;
+  console.log('parsedPath', parsedPath);
+  const pathArray = parsedPath.split('/');
   if (pathArray.length != 3) {
     return callback('Not found');
   }

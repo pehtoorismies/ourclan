@@ -15,11 +15,8 @@ const Content = styled(Reb.Flex)`
   width: 100%;
 `;
 
-const { LAMBDA_HOST,  EMAIL_VALIDATOR_PATH } = config;
-console.log('URL', process.env.URL);
-
 const handleSubmit = (email, setSubmitting, setErrors) => {
-  const url = `${LAMBDA_HOST}${EMAIL_VALIDATOR_PATH}/${encodeURIComponent(
+  const url = `${config.NETLIFY_FUNCTIONS}/verifyemail/${encodeURIComponent(
     email,
   )}`;
   console.log('url', url);
