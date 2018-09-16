@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import { push } from 'gatsby-link';
 import * as R from 'ramda';
 import styled from 'styled-components';
-import { Box, Text, Heading, BackgroundImage, Flex } from 'rebass';
+import { Box, Text, Heading, Flex } from 'rebass';
 import Layout from '../components/Layout';
 
 // const authImage = (url) => {
@@ -18,19 +18,26 @@ const getBgImg = bgImgUrl => `url(${bgImgUrl})`;
 
 const GalleryBox = Flex.extend`
   height: 300px;
-  width: 300px;
+  width: 500px;
   background: ${props => getBgImg(props.bgImgUrl)};
   background-size: cover;
+  user-select: none;
   cursor: pointer;
+`;
+const ShadowedHeading = Heading.extend`
+  text-shadow: 2px 2px 6px #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.6);
 `;
 
 const toAlbumObj = node => ({
   id: R.prop('id', node),
   slug: R.prop('uid', node),
-  image: {
-    url: R.path(['data', 'image', 'medium', 'url'], node),
-    title: R.path(['data', 'title', 'text'], node),
-  },
+  title: R.path(['data', 'albumtitle', 'text'], node),
+  imageUrl: R.path(['data', 'mainimage', 'small', 'url'], node),
 });
 
 const albumsFromData = R.pipe(
@@ -39,24 +46,24 @@ const albumsFromData = R.pipe(
   R.map(toAlbumObj),
 );
 
-const renderAlbum = g => (
+const renderAlbum = a => (
   <GalleryBox
-    onClick={() => push(`/album/${g.slug}`)}
-    key={g.id}
+    onClick={() => push(`/album/${a.slug}`)}
+    key={a.id}
     m={1}
     color="white"
     width={1}
     alignItems="center"
-    justifyContent="flex-end"
+    justifyContent="center"
     bg="red"
-    bgImgUrl={g.image.url}
+    bgImgUrl={a.imageUrl}
   >
-    <Heading fontSize={3}>{g.title}</Heading>
+    <ShadowedHeading fontSize={3}>{a.title}</ShadowedHeading>
   </GalleryBox>
 );
 const PhotoPage = ({ data }) => {
   const albums = albumsFromData(data);
-  console.log('albums', albums);
+
   return (
     <Layout>
       <Box py={3}>
@@ -70,9 +77,7 @@ const PhotoPage = ({ data }) => {
           Valokuvat
         </Text>
       </Box>
-      <Flex flexWrap="wrap">
-        {R.map(renderAlbum, albums)}
-      </Flex>
+      <Flex flexWrap="wrap">{R.map(renderAlbum, albums)}</Flex>
     </Layout>
   );
 };
@@ -80,21 +85,25 @@ const PhotoPage = ({ data }) => {
 export default PhotoPage;
 
 export const query = graphql`
-  query PrismicAlbumQuery {
+  query allPrismicAlbumsQuery {
     allPrismicAlbum {
       edges {
         node {
           id
           uid
-          type
           data {
-            image {
-              medium {
+            albumtitle {
+              text
+            }
+            mainimage {
+              small {
                 url
               }
             }
-            title {
-              text
+            images {
+              imagetitle {
+                text
+              }
             }
           }
         }

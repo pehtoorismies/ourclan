@@ -25,6 +25,7 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
+    "react-images": "^0.5.19",
     "react-photo-gallery": "^6.2.1",
     "rebass": "^2.3.4",
     "recompose": "^0.30.0",
