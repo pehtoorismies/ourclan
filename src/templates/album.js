@@ -26,11 +26,13 @@ const srcSetArray = image => [
   `${image.xlarge.url} 1600w`,
 ];
 
-const mapPhoto = ({ image }) => ({
-  src: image.xlarge.url,
+const mapPhoto = (imageObj) => ({
+
+  caption: imageObj.imagetitle.text,
+  src: imageObj.image.xlarge.url,
   width: 3,
   height: 2,
-  srcSet: srcSetArray(image),
+  srcSet: srcSetArray(imageObj.image),
   sizes: ['(min-width: 480px) 50vw,(min-width: 1024px) 33.3vw,100vw'],
 });
 
@@ -46,7 +48,7 @@ const GalleryTemplate = props => {
     lightBoxState,
     dispatch,
   } = props;
-  // console.log('prismicAlbum', prismicAlbum.data.albumtitle.text);
+  console.log('prismicAlbum', prismicAlbum.data.images);
   const album = parseAlbum(prismicAlbum);
 
   return (
