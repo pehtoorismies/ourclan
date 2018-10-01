@@ -9,7 +9,7 @@ import Header from '../Header';
 import config from '../../config';
 
 const Content = styled(Reb.Flex)`
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
 `;
 const FullHeight = styled.div`

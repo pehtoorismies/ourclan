@@ -1,6 +1,5 @@
 import React from 'react';
 import { object, func, shape, bool, number } from 'prop-types';
-import styled from 'styled-components';
 import { graphql } from 'gatsby';
 import { Heading } from 'rebass';
 import * as R from 'ramda';
@@ -19,21 +18,25 @@ const PropTypes = {
 };
 const DefaultProps = {};
 
-const srcSetArray = image => [
-  `${image.small.url} 500w`,
-  `${image.medium.url} 800w`,
-  `${image.large.url} 1024w`,
+const randomHex = () => Math.floor(Math.random() * 16777215).toString(16);
+const randoms = R.times(randomHex, 50);
+console.log('randoms', randoms);
+
+const srcSetArray = (image) => [
   `${image.xlarge.url} 1600w`,
+  `${image.large.url} 1024w`,
+  `${image.medium.url} 800w`,
+  `${image.small.url} 500w`,
 ];
 
 const mapPhoto = (imageObj) => ({
-
   caption: imageObj.imagetitle.text,
-  src: imageObj.image.xlarge.url,
-  width: 3,
-  height: 2,
+  src: imageObj.image.small.url,
+  width: imageObj.image.dimensions.width,
+  height: imageObj.image.dimensions.height,
   srcSet: srcSetArray(imageObj.image),
-  sizes: ['(min-width: 480px) 50vw,(min-width: 1024px) 33.3vw,100vw'],
+  sizes: '(min-width: 1400px) 499px, 100vw',
+
 });
 
 const parseAlbum = prismicAlbum => ({
@@ -48,17 +51,22 @@ const GalleryTemplate = props => {
     lightBoxState,
     dispatch,
   } = props;
-  console.log('prismicAlbum', prismicAlbum.data.images);
+
   const album = parseAlbum(prismicAlbum);
 
   return (
     <Layout>
-      <Heading textAlign="center" fontSize={[ 2, 2, 3, 4, 5 ]}>{album.title}</Heading>
+      <Heading textAlign="center" fontSize={[2, 2, 3, 4, 5]}>
+        {album.title}
+      </Heading>
       <Gallery
         photos={album.photos}
-        onClick={() => dispatch({ type: 'open' })}
+        onClick={(event, obj) =>
+          dispatch({ type: 'open', imageIdx: obj.index })
+        }
       />
       <Lightbox
+        width={1600}
         images={album.photos}
         onClose={() => dispatch({ type: 'close' })}
         onClickPrev={() => dispatch({ type: 'prev' })}
@@ -82,7 +90,7 @@ const enhance = withReducer(
         return {
           ...state,
           isOpen: true,
-          currentImageIdx: 0,
+          currentImageIdx: action.imageIdx,
         };
       case 'close':
         return {
@@ -127,6 +135,10 @@ export const query = graphql`
             text
           }
           image {
+            dimensions {
+              width
+              height
+            }
             small {
               url
             }

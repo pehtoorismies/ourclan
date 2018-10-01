@@ -48,7 +48,7 @@ const albumsFromData = R.pipe(
 
 const renderAlbum = a => (
   <GalleryBox
-    onClick={() => push(`/album/${a.slug}`)}
+    onClick={() => push(`/albumi/${a.slug}`)}
     key={a.id}
     m={1}
     color="white"
