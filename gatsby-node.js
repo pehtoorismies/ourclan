@@ -1,8 +1,24 @@
 const path = require(`path`);
 
+// Implement the Gatsby API “onCreatePage”. This is
+// called after every page is created.
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage } = actions;
+
+  // page.matchPath is a special key that's used for matching pages
+  // only on the client.
+  if (page.path.match(/^\/jasenet/)) {
+    page.matchPath = '/jasenet/*';
+
+    // Update the page.
+    createPage(page);
+  }
+};
+
 // You can delete this file if you're not using it
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
+
   return new Promise((resolve, reject) => {
     const albumTemplate = path.resolve(`src/templates/album.js`);
     // Query for markdown nodes to use in creating pages.
