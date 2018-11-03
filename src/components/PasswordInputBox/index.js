@@ -74,17 +74,17 @@ const MailForm = ({
           <Reb.Text lineHeight={[1, 2]} fontSize={[0, 1, 1]} />
         </Reb.Box>
         <EmailInput
-          type="email"
-          name="email"
+          type="password"
+          name="password"
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.email}
-          placeholder="Sähköpostiosoitteeni"
+          placeholder="Salasana"
           my={3}
         />
         {errorMsg}
         <Reb.Button type="submit" disabled={isSubmitting} m={2}>
-          LÄHETÅ KIRJAUTUMISKOODI
+          KIRJAUDU
         </Reb.Button>
       </FormBox>
     </form>
@@ -95,17 +95,13 @@ const MailInputForm = withFormik({
   mapPropsToValues: () => ({ email: '' }),
   validate: values => {
     const errors = {};
-    if (!values.email) {
-      errors.email = 'Anna sähköpostiosoitteesi';
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
-      errors.email = 'Tarkista sähköpostiosoite';
+    if (!values.password) {
+      errors.email = 'Anna salasana';
     }
     return errors;
   },
   handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-    props.handleSubmit(values.email, setSubmitting, setErrors);
+    props.handleSubmit(values.password, setSubmitting, setErrors);
   },
 })(MailForm);
 

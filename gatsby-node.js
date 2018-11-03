@@ -8,10 +8,13 @@ exports.onCreatePage = async ({ page, actions }) => {
   // page.matchPath is a special key that's used for matching pages
   // only on the client.
   if (page.path.match(/^\/jasenet/)) {
-    page.matchPath = '/jasenet/*';
+    // page.matchPath = `/jasenet/*`;
 
     // Update the page.
-    createPage(page);
+    createPage({
+      ...page,
+      matchPath: `/jasenet/*`,
+    });
   }
 };
 

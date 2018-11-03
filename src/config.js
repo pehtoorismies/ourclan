@@ -21,15 +21,10 @@ const config = {
     lineHeights: [1.5, 1.3, 1.5],
   },
   MENU_ITEMS: [
-    { title: 'Valokuvat', link: '/valokuvat', private: false },
-    { title: 'Sukupuu', link: '/sukupuu', private: false },
-    { title: 'Kirjaudu', link: '/kirjaudu' },
+    { title: 'Jäsenet', link: '/jasenet', private: false },
   ],
   ACCESS_TOKEN: 'heritageAccessToken',
-  WHITE_LIST_EMAILS: process.env.WHITE_LIST_EMAILS || '',
-  NETLIFY_FUNCTIONS: '/.netlify/functions',
-  AUTH0_DOMAIN: 'prod-tuomaalafi.eu.auth0.com',
-  AUTH0_CLIENT_ID: '6maNRjtjiFie9k4ShgWAeX2GOt5JoWNY',
+  API_URL: process.env.API_URL,
 };
 
 export default config;

@@ -1,22 +1,8 @@
 require("dotenv").config({
   path: `.env`,
 })
-const proxy = require('http-proxy-middleware'); // eslint-disable-line
-
-console.log('process.env', process.env);
 
 module.exports = {
-  developMiddleware: app => {
-    app.use(
-      '/.netlify/functions/',
-      proxy({
-        target: 'http://localhost:9000',
-        pathRewrite: {
-          '/.netlify/functions/': '',
-        },
-      }),
-    );
-  },
   siteMetadata: {
     title: 'Tuomaala.fi',
   },

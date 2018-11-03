@@ -3,9 +3,8 @@ import { string } from 'prop-types';
 import styled from 'styled-components';
 import { push } from 'gatsby';
 import * as Reb from 'rebass';
-import MailInputForm from '../components/MailInputForm';
+import LoginForm from '../components/LoginForm';
 import Layout from '../components/Layout';
-import webAuth from '../util/auth';
 import config from '../config';
 
 const PropTypes = {};
@@ -15,53 +14,39 @@ const Content = styled(Reb.Flex)`
   width: 100%;
 `;
 
-const handleSubmit = (email, setSubmitting, setErrors) => {
-  const url = `${config.NETLIFY_FUNCTIONS}/verifyemail/${encodeURIComponent(
-    email,
-  )}`;
+const handleSubmit = (password, setSubmitting, setErrors) => {
+  const url = `${config.API_URL}/login/`;
   console.log('url', url);
-  fetch(url, { mode: 'cors' })
+  fetch(url, {
+    mode: 'cors',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify(password)
+  })
     .then(res => {
       if (res.status !== 200) {
-        throw new Error('Wrong status');
-      }
-      return res.json();
-    })
-    .then(({ valid }) => {
-      console.log('valid', valid);
-      if (!valid) {
         setErrors({
-          email:
-            'Kyseistä sähköpostiosoitetta ei ole käyttäjien listalla. Ota yhteyttä antti (a) tuomaala.fi',
+          password:
+            'Väärä salasana',
         });
         setSubmitting(false);
+      }
+      return null;
+    })
+    .then((res) => {
+      if (!res) {
         return;
       }
-      webAuth.passwordlessStart(
-        {
-          connection: 'email',
-          send: 'code',
-          email,
-        },
-        (err, res) => {
-          // eslint-disable-line
-          setSubmitting(false);
-          if (err) {
-            console.log('Webauth error', err);
-            setErrors({
-              email: 'Lähetys epäonnistui, kokeile hetken päästä uudelleen',
-            });
-            return;
-          }
-          const urlSafeEmail = encodeURIComponent(email);
-          push(`/varmistus?email=${urlSafeEmail}`);
-        },
-      );
+      
+      setSubmitting(false);
+      // push(`/varmistus?email=${urlSafeEmail}`);
     })
     .catch(error => {
       console.error(error);
       setErrors({
-        email: 'Validointi epäonnistui. Kokeile hetken kuluttua uudelleen.',
+        password: 'Palvelussa on vikaa. Yritä myöhemmin uudelleen.',
       });
       setSubmitting(false);
     });
@@ -70,7 +55,7 @@ const handleSubmit = (email, setSubmitting, setErrors) => {
 const LoginPage = () => (
   <Layout>
     <Content justifyContent="center" alignItems="center">
-      <MailInputForm handleSubmit={handleSubmit} />
+      <LoginForm handleSubmit={handleSubmit} />
     </Content>
   </Layout>
 );

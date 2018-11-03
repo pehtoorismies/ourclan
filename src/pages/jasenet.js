@@ -2,14 +2,15 @@ import React from "react"
 import { Router } from "@reach/router"
 import Albums from "../components/Albums"
 import Layout from "../components/Layout"
-import Login from "../components/Login"
+import LoginContainer from "../containers/LoginContainer"
 import PrivateRoute from "../components/PrivateRoute"
 
 const App = () => (
   <Layout>
+    People 
     <Router>
       <PrivateRoute path="/jasenet/albums" component={Albums} />
-      <Login path="/jasenet/login" />
+      <LoginContainer path="/jasenet" />
     </Router>
   </Layout>
 )
