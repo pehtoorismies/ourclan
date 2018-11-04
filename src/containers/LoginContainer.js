@@ -1,43 +1,32 @@
-import React from 'react';
-import { string } from 'prop-types';
-import styled from 'styled-components';
-import { push } from 'gatsby';
+import { compose, withProps } from 'recompose';
+import { navigate } from 'gatsby';
 import axios from 'axios';
-import * as Reb from 'rebass';
-import LoginForm from '../components/LoginForm';
-import Layout from '../components/Layout';
 import config from '../config';
-
-const PropTypes = {};
-const DefaultProps = {};
-
-const Content = styled(Reb.Flex)`
-  width: 100%;
-`;
+import LoginForm from '../components/LoginForm';
+import { saveToken } from '../util'; 
 
 const handleSubmit = (password, setSubmitting, setErrors) => {
-  const url = `${config.API_URL}/login`;
-  console.log('url:', url);
-  console.log('password:', password);
-  console.log('JSON.stringify(password)', JSON.stringify({ password }));
   axios
-    .post(url, {
+    .post(`${config.API_URL}/login`, {
       password,
     })
-    .then(res => {
+    .then(result => {
       setSubmitting(false);
-
-      if (res.status === 200) {
-        console.log('res', res);
-        // push(`/varmistus?email=${urlSafeEmail}`);
+      const { data } = result;
+      if (result.status === 200) {
+        saveToken(data);
+        navigate(`/jasenet/albums`);
+      } else {
+        console.error(result);
+        setErrors({
+          password: 'Palvelussa on vikaa. Yritä myöhemmin uudelleen.',
+        });
       }
     })
     .catch(error => {
       setSubmitting(false);
       if (error.response) {
         const { status } = error.response;
-        console.log('error.response.status', error.response.status);
-        console.log('statuts', status);
         if (status === 401) {
           setErrors({
             password: 'Väärä salasana',
@@ -53,13 +42,9 @@ const handleSubmit = (password, setSubmitting, setErrors) => {
     });
 };
 
-const LoginPage = () => (
-  <Content justifyContent="center" alignItems="center">
-    <LoginForm handleSubmit={handleSubmit} />
-  </Content>
-);
 
-LoginPage.propTypes = PropTypes;
-LoginPage.defaultProps = DefaultProps;
-
-export default LoginPage;
+export default compose(
+  withProps({
+    handleSubmit,
+  }),
+)(LoginForm);

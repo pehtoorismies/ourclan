@@ -1,51 +1,20 @@
-const isBrowser = typeof window !== `undefined`;
+import axios from 'axios';
+import config from '../config';
 
-const getUser = () =>
-  window.localStorage.gatsbyUser
-    ? JSON.parse(window.localStorage.gatsbyUser)
-    : {};
+const CLAN_TOKEN = 'clan_access_token';
 
-const setUser = user => {
-  window.localStorage.gatsbyUser = JSON.stringify(user);
+const saveToken = token => {
+  localStorage.setItem(CLAN_TOKEN, token);
 };
+const loadToken = () => localStorage.getItem(CLAN_TOKEN);
 
-export const commaListToArray = commaList => [];
+const isLoggedIn = () => !!loadToken();
 
-export const handleLogin = ({ username, password }) => {
-  if (!isBrowser) {
-    return false;
-  }
+const getAxiosInstance = path =>
+  axios.create({
+    baseURL: `${config.API_URL}/${path}`,
+    timeout: 5000,
+    headers: { Authorization: `Bearer ${loadToken()}` },
+  });
 
-  if (username === `gatsby` && password === `demo`) {
-    console.log(`Credentials match! Setting the active user.`);
-    return setUser({
-      name: `Jim`,
-      legalName: `James K. User`,
-      email: `jim@example.org`,
-    });
-  }
-
-  return false;
-};
-
-export const isLoggedIn = () => {
-  if (!isBrowser) {
-    return false;
-  }
-
-  const user = getUser();
-
-  return !!user.email;
-};
-
-export const getCurrentUser = () => isBrowser && getUser();
-
-export const logout = callback => {
-  if (!isBrowser) {
-    return;
-  }
-
-  console.log(`Ensuring the \`gatsbyUser\` property exists.`);
-  setUser({});
-  callback();
-};
+export { saveToken, loadToken, isLoggedIn, getAxiosInstance };

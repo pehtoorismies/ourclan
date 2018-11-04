@@ -15,7 +15,7 @@ const Content = styled(Reb.Flex)`
 `;
 
 const handleSubmit = (password, setSubmitting, setErrors) => {
-  const url = `${config.API_URL}/login/`;
+  const url = `${config.API_URL}/kirjaudu/`;
   console.log('url', url);
   fetch(url, {
     mode: 'cors',
