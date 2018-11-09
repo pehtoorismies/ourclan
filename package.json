@@ -1,8 +1,8 @@
 {
   "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "description": "Tuomaala heritage",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Antti Tuomaala <pehtoorismies@gmail.com>",
   "dependencies": {
     "@reach/router": "^1.2.1",
     "axios": "^0.18.0",
