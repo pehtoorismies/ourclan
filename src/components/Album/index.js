@@ -7,10 +7,17 @@ import { withReducer } from 'recompose';
 
 const PropTypes = {
   album: shape({
-    caption: string,
-    width: number,
-    height: number,
-    srcSet: arrayOf(string),
+    title: string,
+    photos: arrayOf(
+      shape({
+        caption: string,
+        src: string,
+        width: number,
+        height: number,
+        srcSet: arrayOf(shape({})),
+        sizes: string,
+      }),
+    ),
   }).isRequired,
   dispatch: func.isRequired,
   lightBoxState: shape({
@@ -18,15 +25,10 @@ const PropTypes = {
     currentImageIdx: number,
   }).isRequired,
 };
-const DefaultProps = {
-};
+const DefaultProps = {};
 
 const GalleryTemplate = props => {
-  const {
-    album,
-    lightBoxState,
-    dispatch,
-  } = props;
+  const { album, lightBoxState, dispatch } = props;
 
   return (
     <React.Fragment>

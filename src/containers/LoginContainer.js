@@ -3,7 +3,7 @@ import { navigate } from 'gatsby';
 import axios from 'axios';
 import config from '../config';
 import LoginForm from '../components/LoginForm';
-import { saveToken } from '../util'; 
+import { saveToken } from '../util';
 
 const handleSubmit = (password, setSubmitting, setErrors) => {
   axios
@@ -15,7 +15,7 @@ const handleSubmit = (password, setSubmitting, setErrors) => {
       const { data } = result;
       if (result.status === 200) {
         saveToken(data);
-        navigate(`/jasenet/albums`);
+        navigate(`/jasenet/albumit`);
       } else {
         console.error(result);
         setErrors({
@@ -41,7 +41,6 @@ const handleSubmit = (password, setSubmitting, setErrors) => {
       }
     });
 };
-
 
 export default compose(
   withProps({

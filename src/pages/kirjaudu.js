@@ -1,7 +1,5 @@
 import React from 'react';
-import { string } from 'prop-types';
 import styled from 'styled-components';
-import { push } from 'gatsby';
 import * as Reb from 'rebass';
 import LoginForm from '../components/LoginForm';
 import Layout from '../components/Layout';
@@ -23,25 +21,23 @@ const handleSubmit = (password, setSubmitting, setErrors) => {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
     },
-    body: JSON.stringify(password)
+    body: JSON.stringify(password),
   })
     .then(res => {
       if (res.status !== 200) {
         setErrors({
-          password:
-            'Väärä salasana',
+          password: 'Väärä salasana',
         });
         setSubmitting(false);
       }
       return null;
     })
-    .then((res) => {
+    .then(res => {
       if (!res) {
         return;
       }
-      
+
       setSubmitting(false);
-      // push(`/varmistus?email=${urlSafeEmail}`);
     })
     .catch(error => {
       console.error(error);

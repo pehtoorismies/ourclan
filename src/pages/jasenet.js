@@ -1,14 +1,13 @@
 import React from 'react';
 import { Router } from '@reach/router';
-import { ToastContainer } from 'react-toastify'; 
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import AlbumsContainer from '../containers/AlbumsContainer';
+import AlbumContainer from '../containers/AlbumContainer';
+import MembersMainContainer from '../containers/MembersMainContainer';
 import Layout from '../components/Layout';
 import LoginContainer from '../containers/LoginContainer';
 import PrivateRoute from '../components/PrivateRoute';
-
-
-const Main = () => <div>Nothing here</div>;
 
 const App = () => (
   <Layout>
@@ -25,8 +24,8 @@ const App = () => (
     />
     <Router>
       <PrivateRoute path="/jasenet/albumit" component={AlbumsContainer} />
-      <PrivateRoute path="/jasenet/albumi" component={AlbumsContainer} />
-      <PrivateRoute path="/jasenet" component={Main} />
+      <PrivateRoute path="/jasenet/albumit/:uid" component={AlbumContainer} />
+      <PrivateRoute path="/jasenet" component={MembersMainContainer} />
       <LoginContainer path="/jasenet/kirjaudu" />
     </Router>
   </Layout>

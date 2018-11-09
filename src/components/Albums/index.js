@@ -61,10 +61,12 @@ const Albums = ({ albums }) => (
         fontWeight="bold"
         p={3}
       >
-        Valokuvat
+        Valokuva-albumit
       </Text>
     </Box>
-    <Flex flexWrap="wrap">{R.map(renderAlbum, albums)}</Flex>
+    <Flex justifyContent="center" flexWrap="wrap">
+      {R.map(renderAlbum, albums)}
+    </Flex>
   </React.Fragment>
 );
 
