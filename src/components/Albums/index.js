@@ -1,6 +1,5 @@
 import React from 'react';
-import { string, arrayOf, shape } from 'prop-types';
-import { navigate } from 'gatsby';
+import { string, arrayOf, shape, func } from 'prop-types';
 import * as R from 'ramda';
 import { Box, Text, Heading, Flex } from 'rebass';
 
@@ -13,6 +12,7 @@ const PropTypes = {
       title: string,
     }),
   ),
+  onSelect: func.isRequired,
 };
 const DefaultProps = {
   albums: [],
@@ -35,9 +35,9 @@ const ShadowedHeading = Heading.extend`
   background-color: rgba(255, 255, 255, 0.6);
 `;
 
-const renderAlbum = a => (
+const renderAlbum = onSelect => a => (
   <GalleryBox
-    onClick={() => navigate(`/jasenet/albumi/${a.slug}`)}
+    onClick={() => onSelect(a.slug)}
     key={a.id}
     m={1}
     color="white"
@@ -51,7 +51,7 @@ const renderAlbum = a => (
   </GalleryBox>
 );
 
-const Albums = ({ albums }) => (
+const Albums = ({ albums, onSelect }) => (
   <React.Fragment>
     <Box py={3}>
       <Text
@@ -65,7 +65,7 @@ const Albums = ({ albums }) => (
       </Text>
     </Box>
     <Flex justifyContent="center" flexWrap="wrap">
-      {R.map(renderAlbum, albums)}
+      {R.map(renderAlbum(onSelect), albums)}
     </Flex>
   </React.Fragment>
 );

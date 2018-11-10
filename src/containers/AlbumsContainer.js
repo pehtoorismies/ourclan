@@ -1,9 +1,10 @@
-import { compose, lifecycle } from 'recompose';
+import { compose, lifecycle, withProps } from 'recompose';
 import { navigate } from 'gatsby';
 import { toast } from 'react-toastify';
 import * as R from 'ramda';
 import Albums from '../components/Albums';
 import { getAxiosInstance } from '../util';
+import loadingSpinner from '../hoc/loadingHoc';
 
 const albumsMapper = a => ({
   id: a.id,
@@ -14,6 +15,7 @@ const albumsMapper = a => ({
 
 export default compose(
   lifecycle({
+    state: { loading: true },
     componentDidMount() {
       const axios = getAxiosInstance('albums');
       axios
@@ -21,7 +23,7 @@ export default compose(
         .then(result => {
           const { data } = result;
           const albums = R.map(albumsMapper, data);
-          this.setState({ albums });
+          this.setState({ albums, loading: false });
         })
         .catch(error => {
           console.log('error', error);
@@ -40,4 +42,8 @@ export default compose(
         });
     },
   }),
+  withProps({
+    onSelect: uid => navigate(`/jasenet/albumit/${uid}`),
+  }),
+  loadingSpinner(({ loading }) => loading),
 )(Albums);

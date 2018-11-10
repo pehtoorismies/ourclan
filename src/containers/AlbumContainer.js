@@ -1,12 +1,10 @@
-import React from 'react';
-import { compose, lifecycle, renderComponent, branch } from 'recompose';
+import { compose, lifecycle, withProps } from 'recompose';
 import { navigate } from 'gatsby';
-import styled from 'styled-components';
-import Spinner from 'react-spinkit';
 import * as R from 'ramda';
 import { toast } from 'react-toastify';
 import Album from '../components/Album';
 import { getAxiosInstance } from '../util';
+import loadingSpinner from '../hoc/loadingHoc';
 
 const srcSetArray = image => [
   `${image.xlarge.url} 1600w`,
@@ -15,19 +13,12 @@ const srcSetArray = image => [
   `${image.small.url} 500w`,
 ];
 
-const LoadWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-`;
-
-const mapPhoto = imageObj => ({
-  caption: 'cap', // imageObj.imagetitle.text,
-  src: imageObj.image.small.url,
-  width: imageObj.image.dimensions.width,
-  height: imageObj.image.dimensions.height,
-  srcSet: srcSetArray(imageObj.image),
+const mapPhoto = ({ image, imagetitle }) => ({
+  caption: imagetitle[0].text,
+  src: image.small.url,
+  width: image.dimensions.width,
+  height: image.dimensions.height,
+  srcSet: srcSetArray(image),
   sizes: '(min-width: 1400px) 499px, 100vw',
 });
 
@@ -65,12 +56,8 @@ export default compose(
         });
     },
   }),
-  branch(
-    ({ loading }) => loading,
-    renderComponent(() => (
-      <LoadWrap>
-        <Spinner name="ball-scale-ripple" />
-      </LoadWrap>
-    )),
-  ),
+  withProps({
+    onAll: () => navigate('/jasenet/albumit/'),
+  }),
+  loadingSpinner(({ loading }) => loading),
 )(Album);

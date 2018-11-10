@@ -1,6 +1,6 @@
 import React from 'react';
 import { arrayOf, func, shape, bool, number, string } from 'prop-types';
-import { Heading } from 'rebass';
+import { Heading, Button } from 'rebass';
 import Gallery from 'react-photo-gallery';
 import Lightbox from 'react-images';
 import { withReducer } from 'recompose';
@@ -24,15 +24,24 @@ const PropTypes = {
     isOpen: bool,
     currentImageIdx: number,
   }).isRequired,
+  onAll: func.isRequired,
 };
 const DefaultProps = {};
 
 const GalleryTemplate = props => {
-  const { album, lightBoxState, dispatch } = props;
+  const { album, lightBoxState, dispatch, onAll } = props;
+
+  const backButton = (
+    <Button m={3} onClick={onAll} alignSelf="start">
+      Takaisin albumeihin
+    </Button>
+  );
 
   return (
     <React.Fragment>
-      <Heading textAlign="center" fontSize={[2, 2, 3, 4, 5]}>
+      {backButton}
+
+      <Heading m={3} textAlign="center" fontSize={[2, 2, 3, 4, 5]}>
         {album.title}
       </Heading>
       <Gallery
@@ -50,6 +59,7 @@ const GalleryTemplate = props => {
         currentImage={lightBoxState.currentImageIdx}
         isOpen={lightBoxState.isOpen}
       />
+      {backButton}
     </React.Fragment>
   );
 };
