@@ -4,7 +4,7 @@ import { injectGlobal } from 'styled-components';
 import { navigate } from '@reach/router';
 import reset from 'styled-reset';
 import * as R from 'ramda';
-import { string, node } from 'prop-types';
+import { node } from 'prop-types';
 import Helmet from 'react-helmet';
 import Layout from '../components/Layout';
 import { isLoggedIn, removeToken } from '../util';

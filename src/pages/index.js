@@ -82,9 +82,8 @@ const renderBlock = (block, idx) => {
     </Box>
   );
 };
-
+// eslint-disable-next-line
 const IndexPage = ({ data }) => {
-  // eslint-disable-line
   const contentblocks = parse(data);
   return (
     <LayoutContainer>{mapIndexed(renderBlock, contentblocks)}</LayoutContainer>
