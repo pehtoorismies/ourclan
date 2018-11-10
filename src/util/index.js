@@ -3,10 +3,20 @@ import config from '../config';
 
 const CLAN_TOKEN = 'clan_access_token';
 
-const saveToken = token => {
-  localStorage.setItem(CLAN_TOKEN, token);
+export const storage = () => {
+  if (typeof window !== 'undefined') {
+    return window.localStorage;
+  }
+  return {
+    setItem: () => {},
+    getItem: () => {},
+  };
 };
-const loadToken = () => localStorage.getItem(CLAN_TOKEN);
+
+const saveToken = token => {
+  storage().setItem(CLAN_TOKEN, token);
+};
+const loadToken = () => storage().getItem(CLAN_TOKEN);
 
 const isLoggedIn = () => !!loadToken();
 

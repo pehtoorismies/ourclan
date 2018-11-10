@@ -5,8 +5,11 @@ import { isLoggedIn } from '../../util';
 
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
   if (!isLoggedIn() && location.pathname !== `/jasenet/kirjaudu`) {
-    // If we’re not logged in, redirect to the home page.
-    navigate(`/jasenet/kirjaudu`);
+    if (typeof window !== 'undefined') {
+      // If we’re not logged in, redirect to the home page.
+      navigate(`/jasenet/kirjaudu`);
+    }
+
     return null;
   }
 

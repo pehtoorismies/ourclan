@@ -1,7 +1,7 @@
 import React from 'react';
 import { number, bool, shape, arrayOf, func, string } from 'prop-types';
 import * as Reb from 'rebass';
-import { push } from 'gatsby-link';
+import { navigate } from 'gatsby';
 import styled from 'styled-components';
 import { withState } from 'recompose';
 import * as R from 'ramda';
@@ -61,7 +61,7 @@ const renderMenuItem = firstId => mi => {
   const ml = mi.id === firstId ? 'auto' : null;
   const props = {
     key: mi.id,
-    onClick: () => push(mi.link),
+    onClick: () => navigate(mi.link),
     ml,
   };
 

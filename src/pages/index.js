@@ -12,8 +12,11 @@ const MaxHeightImg = styled(Image)`
 `;
 
 const createMarkup = d => {
-  const dp = createDompurify(window);
-  return { __html: dp.sanitize(d) };
+  if (typeof window !== 'undefined') {
+    const dp = createDompurify(window);
+    return { __html: dp.sanitize(d) };
+  }
+  return { __html: d };
 };
 
 const parse = data => {
