@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { navigate } from 'gatsby';
 import config from '../config';
 
 const CLAN_TOKEN = 'clan_access_token';
@@ -27,4 +29,25 @@ const getAxiosInstance = path =>
     headers: { Authorization: `Bearer ${loadToken()}` },
   });
 
-export { saveToken, loadToken, isLoggedIn, getAxiosInstance };
+const axiosErrorHandler = error => {
+  console.error('error', error);
+  if (error.response) {
+    const { status } = error.response;
+    if (status === 401) {
+      toast.warn('Kirjaudu uudelleen sisään');
+      navigate('/jasenet/login');
+    }
+  } else {
+    toast.error('Palvelussa ruuhkaa, yritä myöhemmin uudelleen');
+    // Something happened in setting up the request that triggered an Error
+    console.error('Error', error.message);
+  }
+};
+
+export {
+  saveToken,
+  loadToken,
+  isLoggedIn,
+  getAxiosInstance,
+  axiosErrorHandler,
+};

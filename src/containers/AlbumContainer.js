@@ -1,9 +1,8 @@
 import { compose, lifecycle, withProps } from 'recompose';
 import { navigate } from 'gatsby';
 import * as R from 'ramda';
-import { toast } from 'react-toastify';
 import Album from '../components/Album';
-import { getAxiosInstance } from '../util';
+import { getAxiosInstance, axiosErrorHandler } from '../util';
 import loadingSpinner from '../hoc/loadingHoc';
 
 const srcSetArray = image => [
@@ -39,21 +38,7 @@ export default compose(
           const album = parseAlbum(data);
           this.setState({ album, loading: false });
         })
-        .catch(error => {
-          console.log('error', error);
-
-          if (error.response) {
-            const { status } = error.response;
-            if (status === 401) {
-              toast.warn('Kirjaudu uudelleen sisään');
-              navigate('/jasenet/login');
-            }
-          } else {
-            toast.error('Palvelussa ruuhkaa, yritä myöhemmin uudelleen');
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-          }
-        });
+        .catch(error => axiosErrorHandler(error));
     },
   }),
   withProps({

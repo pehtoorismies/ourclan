@@ -1,9 +1,8 @@
 import { compose, lifecycle, withProps } from 'recompose';
 import { navigate } from 'gatsby';
-import { toast } from 'react-toastify';
 import * as R from 'ramda';
 import Albums from '../components/Albums';
-import { getAxiosInstance } from '../util';
+import { getAxiosInstance, axiosErrorHandler } from '../util';
 import loadingSpinner from '../hoc/loadingHoc';
 
 const albumsMapper = a => ({
@@ -25,21 +24,7 @@ export default compose(
           const albums = R.map(albumsMapper, data);
           this.setState({ albums, loading: false });
         })
-        .catch(error => {
-          console.log('error', error);
-
-          if (error.response) {
-            const { status } = error.response;
-            if (status === 401) {
-              toast.warn('Kirjaudu uudelleen sisään');
-              navigate('/jasenet/login');
-            }
-          } else {
-            toast.error('Palvelussa ruuhkaa, yritä myöhemmin uudelleen');
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-          }
-        });
+        .catch(error => axiosErrorHandler(error));
     },
   }),
   withProps({

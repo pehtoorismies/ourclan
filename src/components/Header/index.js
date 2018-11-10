@@ -111,7 +111,7 @@ const Header = props => {
           {R.map(renderPopupMenuItem, items)}
         </Reb.Flex>
       </OverlayMenu>
-      <Reb.NavLink onClick={() => push('/')}>Tuomaala.fi</Reb.NavLink>
+      <Reb.NavLink onClick={() => navigate('/')}>Tuomaala.fi</Reb.NavLink>
       {R.map(renderMenuItem(firstId), items)}
       <NavLinkMobHidden ml="auto" onClick={() => setMenuOpen(!isMenuOpen)}>
         <Hamburger isOpen={isMenuOpen} />

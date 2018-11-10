@@ -34,7 +34,7 @@ const handleSubmit = (password, setSubmitting, setErrors) => {
         }
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
+        console.error('Error', error.message);
         setErrors({
           password: 'Palvelussa on vikaa. Yritä myöhemmin uudelleen.',
         });
