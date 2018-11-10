@@ -68,7 +68,7 @@ const LoginForm = ({
               textAlign="center"
               fontSize={[0, 1, 1]}
             >
-              Syötä salasanasi ja paina <Bold>{sendText}</Bold>
+              Anna salasana ja paina <Bold>{sendText}</Bold>
             </Reb.Text>
             <Reb.Text lineHeight={[1, 2]} fontSize={[0, 1, 1]} />
           </Reb.Box>

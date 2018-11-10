@@ -5,12 +5,12 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import AlbumsContainer from '../containers/AlbumsContainer';
 import AlbumContainer from '../containers/AlbumContainer';
 import MembersMainContainer from '../containers/MembersMainContainer';
-import Layout from '../components/Layout';
+import LayoutContainer from '../containers/LayoutContainer';
 import LoginContainer from '../containers/LoginContainer';
 import PrivateRoute from '../components/PrivateRoute';
 
 const App = () => (
-  <Layout>
+  <LayoutContainer>
     <ToastContainer
       position="top-center"
       autoClose={5000}
@@ -28,7 +28,7 @@ const App = () => (
       <PrivateRoute path="/jasenet" component={MembersMainContainer} />
       <LoginContainer path="/jasenet/kirjaudu" />
     </Router>
-  </Layout>
+  </LayoutContainer>
 );
 
 export default App;

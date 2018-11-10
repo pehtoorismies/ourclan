@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text, Flex, Box, Image } from 'rebass';
+import uuidv4 from 'uuid/v4';
 import { mapIndexed } from 'ramda-adjunct';
 import * as R from 'ramda';
 import { graphql } from 'gatsby';
 import createDompurify from 'dompurify';
 import styled from 'styled-components';
-import Layout from '../components/Layout';
+import LayoutContainer from '../containers/LayoutContainer';
 
 const MaxHeightImg = styled(Image)`
   max-height: 400px;
@@ -33,11 +34,12 @@ const parse = data => {
 };
 
 const renderBlock = (block, idx) => {
+  const uuid = uuidv4();
   const { title, description, imageUrl } = block;
   const isEven = idx % 2 === 0;
   const bgColor = isEven ? 'gray' : '';
   const descriptionContent = (
-    <Flex width={[1, 1, 1 / 2]} alignItems="center">
+    <Flex width={[1, 1, 1 / 2]} alignItems="center" key={`d_${uuid}`}>
       <Text
         px={3}
         py={1}
@@ -51,7 +53,12 @@ const renderBlock = (block, idx) => {
     </Flex>
   );
   const imageContent = (
-    <Flex width={[1, 1, 1 / 2]} alignItems="center" justifyContent="center">
+    <Flex
+      width={[1, 1, 1 / 2]}
+      alignItems="center"
+      justifyContent="center"
+      key={`i_${uuid}`}
+    >
       <MaxHeightImg src={imageUrl} p={2} />
     </Flex>
   );
@@ -61,7 +68,7 @@ const renderBlock = (block, idx) => {
     : [imageContent, descriptionContent];
 
   return (
-    <Box bg={bgColor} py={3} key={`block_${idx}`}>
+    <Box bg={bgColor} py={3} key={uuid}>
       <Text
         color="black"
         textAlign="center"
@@ -79,8 +86,9 @@ const renderBlock = (block, idx) => {
 const IndexPage = ({ data }) => {
   // eslint-disable-line
   const contentblocks = parse(data);
-
-  return <Layout>{mapIndexed(renderBlock, contentblocks)}</Layout>;
+  return (
+    <LayoutContainer>{mapIndexed(renderBlock, contentblocks)}</LayoutContainer>
+  );
 };
 
 export const query = graphql`

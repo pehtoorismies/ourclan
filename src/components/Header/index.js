@@ -21,12 +21,12 @@ const PropTypes = {
   ),
   isMenuOpen: bool.isRequired,
   setMenuOpen: func.isRequired,
-  authToken: string,
+  siteTitle: string,
 };
 const DefaultProps = {
   height: 200,
   menuItems: [],
-  authToken: null,
+  siteTitle: '',
 };
 
 const Wrapper = styled(Reb.Toolbar)`
@@ -61,41 +61,22 @@ const renderMenuItem = firstId => mi => {
   const ml = mi.id === firstId ? 'auto' : null;
   const props = {
     key: mi.id,
-    onClick: () => navigate(mi.link),
+    onClick: mi.action,
     ml,
   };
 
   return <NavLinkDesktop {...props}>{mi.title}</NavLinkDesktop>;
 };
 
-const isHidden = authToken => mi => {
-  if (mi.private) {
-    return false;
-  }
-  if (mi.private && authToken) {
-    return false;
-  }
-  return true;
-};
-
 const get1stId = R.pipe(
   R.head,
   R.prop('id'),
 );
-const mapIndexed = R.addIndex(R.map);
 
 const Header = props => {
-  const { height, isMenuOpen, setMenuOpen, menuItems, authToken } = props;
-  const getShownItems = R.pipe(
-    R.filter(isHidden(authToken)),
-    mapIndexed((x, idx) => ({
-      ...x,
-      id: idx,
-    })),
-  );
+  const { height, isMenuOpen, setMenuOpen, menuItems, siteTitle } = props;
 
-  const items = getShownItems(menuItems);
-  const firstId = get1stId(items);
+  const firstId = get1stId(menuItems);
 
   return (
     <Wrapper bg="blue" color="palewhite" py={3} height={height}>
@@ -108,11 +89,11 @@ const Header = props => {
         menuOpen={isMenuOpen}
       >
         <Reb.Flex flexDirection="column" alignItems="center">
-          {R.map(renderPopupMenuItem, items)}
+          {R.map(renderPopupMenuItem, menuItems)}
         </Reb.Flex>
       </OverlayMenu>
-      <Reb.NavLink onClick={() => navigate('/')}>Tuomaala.fi</Reb.NavLink>
-      {R.map(renderMenuItem(firstId), items)}
+      <Reb.NavLink onClick={() => navigate('/')}>{siteTitle}</Reb.NavLink>
+      {R.map(renderMenuItem(firstId), menuItems)}
       <NavLinkMobHidden ml="auto" onClick={() => setMenuOpen(!isMenuOpen)}>
         <Hamburger isOpen={isMenuOpen} />
       </NavLinkMobHidden>

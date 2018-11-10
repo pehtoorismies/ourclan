@@ -20,6 +20,8 @@ const saveToken = token => {
 };
 const loadToken = () => storage().getItem(CLAN_TOKEN);
 
+const removeToken = () => storage().removeItem(CLAN_TOKEN);
+
 const isLoggedIn = () => !!loadToken();
 
 const getAxiosInstance = path =>
@@ -47,6 +49,7 @@ const axiosErrorHandler = error => {
 export {
   saveToken,
   loadToken,
+  removeToken,
   isLoggedIn,
   getAxiosInstance,
   axiosErrorHandler,

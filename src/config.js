@@ -20,9 +20,7 @@ const config = {
     },
     lineHeights: [1.5, 1.3, 1.5],
   },
-  MENU_ITEMS: [
-    { title: 'Jäsenet', link: '/jasenet', private: false },
-  ],
+  MENU_ITEMS: [{ title: 'Valokuvat', link: '/jasenet', private: false }],
   ACCESS_TOKEN: 'heritageAccessToken',
   API_URL: process.env.API_URL,
 };
