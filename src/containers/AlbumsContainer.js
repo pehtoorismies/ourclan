@@ -10,7 +10,13 @@ const albumsMapper = a => ({
   imageUrl: a.mainImage.small.url,
   slug: a.uid,
   title: a.title,
+  order: a.order || 1000,
 });
+
+const parseAlbums = R.pipe(
+  R.map(albumsMapper),
+  R.sortBy(R.prop('order')),
+);
 
 export default compose(
   lifecycle({
@@ -21,7 +27,7 @@ export default compose(
         .get()
         .then(result => {
           const { data } = result;
-          const albums = R.map(albumsMapper, data);
+          const albums = parseAlbums(data);
           this.setState({ albums, loading: false });
         })
         .catch(error => {
