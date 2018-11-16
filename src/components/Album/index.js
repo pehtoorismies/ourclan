@@ -14,7 +14,7 @@ const PropTypes = {
         src: string,
         width: number,
         height: number,
-        srcSet: arrayOf(shape({})),
+        srcSet: arrayOf(string),
         sizes: string,
       }),
     ),

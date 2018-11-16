@@ -5,25 +5,39 @@ import Album from '../components/Album';
 import { getAxiosInstance, axiosErrorHandler } from '../util';
 import loadingSpinner from '../hoc/loadingHoc';
 
-const srcSetArray = image => [
-  `${image.xlarge.url} 1600w`,
-  `${image.large.url} 1024w`,
-  `${image.medium.url} 800w`,
-  `${image.small.url} 500w`,
-];
+const sizeNames = ['xlarge', 'large', 'medium', 'small'];
+const sizeWidth = ['1600w', '1024w', '800w', '500w'];
 
-const mapPhoto = ({ image, imagetitle }) => ({
-  caption: imagetitle[0].text,
-  src: image.small.url,
-  width: image.dimensions.width,
-  height: image.dimensions.height,
-  srcSet: srcSetArray(image),
-  sizes: '(min-width: 1400px) 499px, 100vw',
+const getSrcSetArray = R.pipe(
+  R.prop('image'),
+  R.props(sizeNames),
+  R.map(R.prop('url')),
+  R.zip(sizeWidth),
+  R.map(R.reverse),
+  R.map(R.join(' ')),
+);
+
+const getSrc = R.path(['image', 'small', 'url']);
+const getW = R.path(['image', 'dimensions', 'width']);
+const getH = R.path(['image', 'dimensions', 'height']);
+
+const getImageTitle = R.pathOr('', ['imageTitle', 0, 'text']);
+
+const mapPhoto = R.applySpec({
+  caption: getImageTitle,
+  src: getSrc,
+  width: getW,
+  height: getH,
+  srcSet: getSrcSetArray,
+  sizes: R.always('(min-width: 1400px) 499px, 100vw'),
 });
 
-const parseAlbum = a => ({
-  photos: R.map(mapPhoto, a.images),
-  title: a.title,
+const parseAlbum = R.applySpec({
+  photos: R.pipe(
+    R.prop('images'),
+    R.map(mapPhoto),
+  ),
+  title: R.propOr('--missing--', 'title'),
 });
 
 export default compose(

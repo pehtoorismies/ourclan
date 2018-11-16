@@ -5,6 +5,7 @@
   "author": "Antti Tuomaala <pehtoorismies@gmail.com>",
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "@sentry/browser": "^4.3.0",
     "axios": "^0.18.0",
     "dompurify": "^1.0.8",
     "dotenv": "^6.0.0",
