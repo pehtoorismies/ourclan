@@ -24,7 +24,10 @@ export default compose(
           const albums = R.map(albumsMapper, data);
           this.setState({ albums, loading: false });
         })
-        .catch(error => axiosErrorHandler(error));
+        .catch(error => {
+          this.setState({ loading: false });
+          axiosErrorHandler(error);
+        });
     },
   }),
   withProps({

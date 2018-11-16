@@ -1,6 +1,15 @@
-require("dotenv").config({
+const React = require('react');
+const { RichText } = require('prismic-reactjs');
+
+const Elements = RichText.Elements;
+
+const propsWithUniqueKey = function(props, key) {
+  return Object.assign(props || {}, { key });
+};
+
+require('dotenv').config({
   path: `.env`,
-})
+});
 
 module.exports = {
   siteMetadata: {
@@ -18,6 +27,12 @@ module.exports = {
         theme_color: '#663399',
         display: 'minimal-ui',
         icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: 'local-sentry',
+      options: {
+        dsn: process.env.SENTRY_DSN_URL,
       },
     },
     'gatsby-plugin-offline',
@@ -70,9 +85,7 @@ module.exports = {
           element,
           content,
           children,
-        ) => {
-          // Your HTML serializer
-        },
+        ) => {},
       },
     },
 

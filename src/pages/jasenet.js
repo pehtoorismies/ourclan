@@ -8,27 +8,30 @@ import MembersMainContainer from '../containers/MembersMainContainer';
 import LayoutContainer from '../containers/LayoutContainer';
 import LoginContainer from '../containers/LoginContainer';
 import PrivateRoute from '../components/PrivateRoute';
+import ErrorBoundary from '../ErrorBoundary';
 
 const App = () => (
-  <LayoutContainer>
-    <ToastContainer
-      position="top-center"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnVisibilityChange
-      draggable
-      pauseOnHover
-    />
-    <Router>
-      <PrivateRoute path="/jasenet/albumit" component={AlbumsContainer} />
-      <PrivateRoute path="/jasenet/albumit/:uid" component={AlbumContainer} />
-      <PrivateRoute path="/jasenet" component={MembersMainContainer} />
-      <LoginContainer path="/jasenet/kirjaudu" />
-    </Router>
-  </LayoutContainer>
+  <ErrorBoundary>
+    <LayoutContainer>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
+      <Router>
+        <PrivateRoute path="/jasenet/albumit" component={AlbumsContainer} />
+        <PrivateRoute path="/jasenet/albumit/:uid" component={AlbumContainer} />
+        <PrivateRoute path="/jasenet" component={MembersMainContainer} />
+        <LoginContainer path="/jasenet/kirjaudu" />
+      </Router>
+    </LayoutContainer>
+  </ErrorBoundary>
 );
 
 export default App;

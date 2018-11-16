@@ -1,6 +1,7 @@
 import { compose, lifecycle, withProps } from 'recompose';
 import { navigate } from 'gatsby';
 import * as R from 'ramda';
+import * as RA from 'ramda-adjunct';
 import Album from '../components/Album';
 import { getAxiosInstance, axiosErrorHandler } from '../util';
 import loadingSpinner from '../hoc/loadingHoc';
@@ -17,11 +18,14 @@ const getSrcSetArray = R.pipe(
   R.map(R.join(' ')),
 );
 
-const getSrc = R.path(['image', 'small', 'url']);
+const getSrc = R.pipe(R.path(['image', 'small', 'url']));
 const getW = R.path(['image', 'dimensions', 'width']);
 const getH = R.path(['image', 'dimensions', 'height']);
 
-const getImageTitle = R.pathOr('', ['imageTitle', 0, 'text']);
+const getImageTitle = R.pipe(
+  R.prop('imagetitle'),
+  R.pathOr('', [0, 'text']),
+);
 
 const mapPhoto = R.applySpec({
   caption: getImageTitle,
@@ -32,10 +36,16 @@ const mapPhoto = R.applySpec({
   sizes: R.always('(min-width: 1400px) 499px, 100vw'),
 });
 
+const srcEmpty = R.pipe(
+  R.prop('src'),
+  RA.isNilOrEmpty,
+);
+
 const parseAlbum = R.applySpec({
   photos: R.pipe(
     R.prop('images'),
     R.map(mapPhoto),
+    R.reject(srcEmpty),
   ),
   title: R.propOr('--missing--', 'title'),
 });
@@ -52,7 +62,10 @@ export default compose(
           const album = parseAlbum(data);
           this.setState({ album, loading: false });
         })
-        .catch(error => axiosErrorHandler(error));
+        .catch(error => {
+          this.setState({ loading: false });
+          axiosErrorHandler(error);
+        });
     },
   }),
   withProps({

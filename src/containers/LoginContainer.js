@@ -1,6 +1,7 @@
 import { compose, withProps } from 'recompose';
 import { navigate } from 'gatsby';
 import axios from 'axios';
+import * as Sentry from '@sentry/browser';
 import config from '../config';
 import LoginForm from '../components/LoginForm';
 import { saveToken } from '../util';
@@ -38,6 +39,7 @@ const handleSubmit = (password, setSubmitting, setErrors) => {
         setErrors({
           password: 'Palvelussa on vikaa. Yritä myöhemmin uudelleen.',
         });
+        Sentry.captureException(error);
       }
     });
 };

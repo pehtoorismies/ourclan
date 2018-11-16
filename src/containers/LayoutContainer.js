@@ -60,6 +60,12 @@ injectGlobal`
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+  strong {
+    font-weight: 800;
+  }
+  p {
+    margin-top: 10px;
+  }
 `;
 /* eslint-enable */
 

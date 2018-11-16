@@ -23,6 +23,19 @@ const config = {
   MENU_ITEMS: [{ title: 'Valokuvat', link: '/jasenet', private: false }],
   ACCESS_TOKEN: 'heritageAccessToken',
   API_URL: process.env.API_URL,
+  SENTRY_FEEDBACK_CONFIG: {
+    title: 'Näyttää pahasti siltä, että sivustolla on onkelmia',
+    subtitle: 'Kerro lyhyesti mitä tapahtui',
+    subtitle2: '',
+    labelName: 'Nimi',
+    labelEmail: 'Sähköposti',
+    labelComments: 'Mitä tapahtui?',
+    labelClose: 'Sulje',
+    labelSubmit: 'Lähetä raportti',
+    errorFormEntry: 'Tarkista, että täytit oikeat tiedot',
+    successMessage: 'Kiitos palautteesta.',
+    lang: 'fi',
+  },
 };
 
 export default config;

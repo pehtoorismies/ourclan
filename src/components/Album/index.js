@@ -40,7 +40,6 @@ const GalleryTemplate = props => {
   return (
     <React.Fragment>
       {backButton}
-
       <Heading m={3} textAlign="center" fontSize={[2, 2, 3, 4, 5]}>
         {album.title}
       </Heading>

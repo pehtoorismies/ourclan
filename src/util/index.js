@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { navigate } from 'gatsby';
+import * as Sentry from '@sentry/browser';
 import config from '../config';
 
 const CLAN_TOKEN = 'clan_access_token';
@@ -40,9 +41,9 @@ const axiosErrorHandler = error => {
       navigate('/jasenet/login');
     }
   } else {
-    toast.error('Palvelussa ruuhkaa, yritä myöhemmin uudelleen');
-    // Something happened in setting up the request that triggered an Error
-    console.error('Error', error.message);
+    toast.error('Virhettä pukkaa');
+    Sentry.captureException(error);
+    Sentry.showReportDialog(config.SENTRY_FEEDBACK_CONFIG);
   }
 };
 
