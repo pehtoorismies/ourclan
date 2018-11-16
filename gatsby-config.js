@@ -1,12 +1,3 @@
-const React = require('react');
-const { RichText } = require('prismic-reactjs');
-
-const Elements = RichText.Elements;
-
-const propsWithUniqueKey = function(props, key) {
-  return Object.assign(props || {}, { key });
-};
-
 require('dotenv').config({
   path: `.env`,
 });
