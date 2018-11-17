@@ -90,6 +90,7 @@ const Header = props => {
       menuOpen={isMenuOpen}
     >
       <OverlayMenu
+        id="overlay"
         p={3}
         bg="black"
         zIndex={1}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
-import { withState } from 'recompose';
+import { withState, lifecycle, compose } from 'recompose';
 import { injectGlobal } from 'styled-components';
 import { navigate } from '@reach/router';
 import reset from 'styled-reset';
@@ -102,13 +102,18 @@ const MENU_ITEMS = [
 const filterMenu = loggedIn => ({ membersOnly }) => loggedIn === membersOnly;
 
 const LayoutContainer = props => {
+  const { overlayMenu } = props;
   const loggedIn = isLoggedIn();
   const menuItems = R.filter(filterMenu(loggedIn), MENU_ITEMS);
-  if (props.isMenuOpen) {
-    // disableBodyScroll({});
-  } else {
-    // enableBodyScroll({});
+  // HACK
+  if (overlayMenu) {
+    if (props.isMenuOpen) {
+      disableBodyScroll(overlayMenu);
+    } else {
+      enableBodyScroll(overlayMenu);
+    }
   }
+
   return (
     <Layout menuItems={menuItems} {...props}>
       {props.children}
@@ -119,4 +124,14 @@ const LayoutContainer = props => {
 LayoutContainer.propTypes = PropTypes;
 LayoutContainer.defaultProps = DefaultProps;
 
-export default withState('isMenuOpen', 'setMenuOpen', false)(LayoutContainer);
+export default compose(
+  lifecycle({
+    componentDidMount() {
+      const target = document.querySelector('#overlay');
+      this.setState({
+        overlayMenu: target,
+      });
+    },
+  }),
+  withState('isMenuOpen', 'setMenuOpen', false),
+)(LayoutContainer);
