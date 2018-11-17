@@ -105,9 +105,9 @@ const LayoutContainer = props => {
   const loggedIn = isLoggedIn();
   const menuItems = R.filter(filterMenu(loggedIn), MENU_ITEMS);
   if (props.isMenuOpen) {
-    // disableBodyScroll();
+    disableBodyScroll({});
   } else {
-    // enableBodyScroll();
+    enableBodyScroll({});
   }
   return (
     <Layout menuItems={menuItems} {...props}>
