@@ -106,13 +106,13 @@ const LayoutContainer = props => {
   const loggedIn = isLoggedIn();
   const menuItems = R.filter(filterMenu(loggedIn), MENU_ITEMS);
   // HACK
-  if (overlayMenu) {
-    if (props.isMenuOpen) {
-      disableBodyScroll(overlayMenu);
-    } else {
-      enableBodyScroll(overlayMenu);
-    }
-  }
+  // if (overlayMenu) {
+  //   if (props.isMenuOpen) {
+  //     disableBodyScroll(overlayMenu);
+  //   } else {
+  //     enableBodyScroll(overlayMenu);
+  //   }
+  // }
 
   return (
     <Layout menuItems={menuItems} {...props}>
