@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { string, node, arrayOf, object } from 'prop-types';
+import { bool, func, string, node, arrayOf, object } from 'prop-types';
 import styled from 'styled-components';
 import * as Reb from 'rebass';
 import Header from '../Header';
@@ -13,7 +13,14 @@ const FullHeight = styled.div`
   min-height: calc(100vh - ${config.HEADER_HEIGHT}px);
 `;
 
-const Layout = ({ children, helmet, siteTitle, menuItems }) => (
+const Layout = ({
+  children,
+  helmet,
+  siteTitle,
+  menuItems,
+  isMenuOpen,
+  setMenuOpen,
+}) => (
   <Fragment>
     {helmet}
     <Reb.Provider theme={config.THEME}>
@@ -22,6 +29,8 @@ const Layout = ({ children, helmet, siteTitle, menuItems }) => (
           siteTitle={siteTitle}
           height={config.HEADER_HEIGHT}
           menuItems={menuItems}
+          isMenuOpen={isMenuOpen}
+          setMenuOpen={setMenuOpen}
         />
         <FullHeight>{children}</FullHeight>
       </Content>
@@ -34,11 +43,15 @@ Layout.propTypes = {
   helmet: node,
   siteTitle: string,
   menuItems: arrayOf(object),
+  isMenuOpen: bool,
+  setMenuOpen: func,
 };
 Layout.defaultProps = {
   helmet: null,
   siteTitle: 'Tuomaala.fi',
-  menuItems: [].ma,
+  menuItems: [],
+  isMenuOpen: false,
+  setMenuOpen: () => {},
 };
 
 export default Layout;

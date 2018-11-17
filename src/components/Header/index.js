@@ -3,7 +3,6 @@ import { number, bool, shape, arrayOf, func, string } from 'prop-types';
 import * as Reb from 'rebass';
 import { navigate } from 'gatsby';
 import styled from 'styled-components';
-import { withState } from 'recompose';
 import * as R from 'ramda';
 import config from '../../config';
 import Hamburger from '../Hamburger';
@@ -114,6 +113,4 @@ const Header = props => {
 Header.propTypes = PropTypes;
 Header.defaultProps = DefaultProps;
 
-const menuEnhance = withState('isMenuOpen', 'setMenuOpen', false);
-
-export default menuEnhance(Header);
+export default Header;

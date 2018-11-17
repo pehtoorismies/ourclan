@@ -1,11 +1,13 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
+import { withState } from 'recompose';
 import { injectGlobal } from 'styled-components';
 import { navigate } from '@reach/router';
 import reset from 'styled-reset';
 import * as R from 'ramda';
 import { node } from 'prop-types';
 import Helmet from 'react-helmet';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Layout from '../components/Layout';
 import { isLoggedIn, removeToken } from '../util';
 
@@ -99,12 +101,17 @@ const MENU_ITEMS = [
 
 const filterMenu = loggedIn => ({ membersOnly }) => loggedIn === membersOnly;
 
-const LayoutContainer = ({ helmet, children }) => {
+const LayoutContainer = props => {
   const loggedIn = isLoggedIn();
   const menuItems = R.filter(filterMenu(loggedIn), MENU_ITEMS);
+  if (props.isMenuOpen) {
+    disableBodyScroll();
+  } else {
+    enableBodyScroll();
+  }
   return (
-    <Layout menuItems={menuItems} helmet={helmet}>
-      {children}
+    <Layout menuItems={menuItems} {...props}>
+      {props.children}
     </Layout>
   );
 };
@@ -112,4 +119,4 @@ const LayoutContainer = ({ helmet, children }) => {
 LayoutContainer.propTypes = PropTypes;
 LayoutContainer.defaultProps = DefaultProps;
 
-export default LayoutContainer;
+export default withState('isMenuOpen', 'setMenuOpen', false)(LayoutContainer);
