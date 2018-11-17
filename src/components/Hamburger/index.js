@@ -1,22 +1,21 @@
 import React from 'react';
 import { bool } from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const PropTypes = {
   isOpen: bool.isRequired,
 };
 const DefaultProps = {};
 
-const rotate1st = css`
-  /* transform: rotate(-45deg) translate(-9px, 6px); */
-  transform: rotate(-45deg) translate(-7px, 7px);
-`;
-const hide2nd = css`
-  opacity: 0;
-`;
-const rotate3rd = css`
-  transform: rotate(45deg) translate(-8px, -8px);
-`;
+const getTransform = twist => {
+  if (!twist) {
+    return 'none';
+  }
+  if (twist === 'left') {
+    return 'rotate(45deg) translate(-8px, -8px)';
+  }
+  return 'rotate(-45deg) translate(-7px, 7px)';
+};
 
 const Beef = styled('div')`
   width: 35px;
@@ -24,15 +23,21 @@ const Beef = styled('div')`
   background-color: white;
   margin: 6px 0;
   transition: 0.4s;
+  opacity: ${props => (props.isVisible ? 1 : 0)};
+  transform: ${props => getTransform(props.transform)};
 `;
 
-const Hamburger = ({ isOpen }) => (
-  <div>
-    <Beef className={isOpen ? rotate1st : null} />
-    <Beef className={isOpen ? hide2nd : null} />
-    <Beef className={isOpen ? rotate3rd : null} />
-  </div>
-);
+const Hamburger = ({ isOpen }) => {
+  const rTrans = isOpen ? 'right' : null;
+  const lTrans = isOpen ? 'left' : null;
+  return (
+    <div>
+      <Beef isVisible transform={rTrans} />
+      <Beef isVisible={!isOpen} />
+      <Beef isVisible transform={lTrans} />
+    </div>
+  );
+};
 
 Hamburger.propTypes = PropTypes;
 Hamburger.defaultProps = DefaultProps;

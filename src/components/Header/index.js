@@ -36,11 +36,13 @@ const Wrapper = styled(Reb.Toolbar)`
 const OverlayMenu = styled(Reb.Fixed)`
   width: 100vw;
   height: calc(100vh - 80px);
-  transition: 0.4s;
+  transition: opacity 0.4s ease-in;
   opacity: 0;
-  transition-timing-function: ease-in;
   opacity: ${props => (props.menuOpen ? '1' : '0')};
   pointer-events: ${props => (props.menuOpen ? 'auto' : 'none')};
+  @media screen and (min-width: 40em) {
+    display: none;
+  }
 `;
 
 const NavLinkMobHidden = styled(Reb.NavLink)`
@@ -55,7 +57,9 @@ const NavLinkDesktop = styled(Reb.NavLink)`
 `;
 
 const renderPopupMenuItem = mi => (
-  <PopupLink key={mi.id}>{mi.title} </PopupLink>
+  <PopupLink key={mi.id} onClick={mi.action}>
+    {mi.title}
+  </PopupLink>
 );
 const renderMenuItem = firstId => mi => {
   const ml = mi.id === firstId ? 'auto' : null;
@@ -79,7 +83,13 @@ const Header = props => {
   const firstId = get1stId(menuItems);
 
   return (
-    <Wrapper bg="blue" color="palewhite" py={3} height={height}>
+    <Wrapper
+      bg="blue"
+      color="palewhite"
+      py={3}
+      height={height}
+      menuOpen={isMenuOpen}
+    >
       <OverlayMenu
         p={3}
         bg="black"
