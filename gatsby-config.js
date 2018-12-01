@@ -76,7 +76,9 @@ module.exports = {
           element,
           content,
           children,
-        ) => {},
+        ) => {
+          // Your HTML serializer
+        },
       },
     },
 

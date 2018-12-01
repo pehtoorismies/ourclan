@@ -28,7 +28,7 @@ const isLoggedIn = () => !!loadToken();
 const getAxiosInstance = path =>
   axios.create({
     baseURL: `${config.API_URL}/${path}`,
-    timeout: 5000,
+    timeout: 8000,
     headers: { Authorization: `Bearer ${loadToken()}` },
   });
 
