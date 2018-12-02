@@ -43,6 +43,9 @@ const GalleryTemplate = props => {
       <Heading m={3} textAlign="center" fontSize={[2, 2, 3, 4, 5]}>
         {album.title}
       </Heading>
+      <Heading m={2} textAlign="center" fontSize={[1, 2, 2, 2, 2]}>
+        Saat otsikot esiin klikkaamalla kuvaa.
+      </Heading>
       <Gallery
         photos={album.photos}
         onClick={(event, obj) =>
